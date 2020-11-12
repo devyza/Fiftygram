@@ -45,5 +45,10 @@
         android:layout_height="wrap_content"
         android:text="Invert"
         android:onClick="applyInvert" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save Photo"
+        android:onClick="savePhoto" />
   </LinearLayout>
 </ScrollView>

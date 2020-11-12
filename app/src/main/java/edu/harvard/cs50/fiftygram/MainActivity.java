@@ -1,16 +1,22 @@
 package edu.harvard.cs50.fiftygram;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.Transformation;
@@ -18,9 +24,9 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.io.FileDescriptor;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-import jp.wasabeef.glide.transformations.gpu.BrightnessFilterTransformation;
-import jp.wasabeef.glide.transformations.gpu.ContrastFilterTransformation;
 import jp.wasabeef.glide.transformations.gpu.InvertFilterTransformation;
 import jp.wasabeef.glide.transformations.gpu.KuwaharaFilterTransformation;
 import jp.wasabeef.glide.transformations.gpu.PixelationFilterTransformation;
@@ -28,7 +34,7 @@ import jp.wasabeef.glide.transformations.gpu.SepiaFilterTransformation;
 import jp.wasabeef.glide.transformations.gpu.SketchFilterTransformation;
 import jp.wasabeef.glide.transformations.gpu.ToonFilterTransformation;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     private ImageView imageView;
     private Bitmap original;
 
@@ -36,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         imageView = findViewById(R.id.image_view);
     }
 
@@ -91,4 +97,26 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    public void savePhoto(View view){
+
+        // If the original image is not loaded, do nothing
+        if (original == null) return;
+
+        // Creating an unique name to save image using current datetime
+        String imgName = "Fiftygram-" + new SimpleDateFormat("ddMMyyhhmmssSS").format(new Date());
+        try {
+            BitmapDrawable modifiedImg = (BitmapDrawable) imageView.getDrawable();
+            MediaStore.Images.Media.insertImage(getContentResolver(), modifiedImg.getBitmap(), imgName, "drawing");
+            Toast.makeText(this, "Image has been saved successfully", Toast.LENGTH_SHORT).show();
+        }catch (Exception e){
+            Toast.makeText(this, "Fail to save image", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
