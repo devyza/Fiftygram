@@ -68,11 +68,17 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         apply(new SketchFilterTransformation());
     }
 
-    public void applyPixelation(View view){apply(new PixelationFilterTransformation());}
+    public void applyPixelation(View view){
+        apply(new PixelationFilterTransformation());
+    }
 
-    public void applyKuwahara(View view){apply(new KuwaharaFilterTransformation());}
+    public void applyKuwahara(View view){
+        apply(new KuwaharaFilterTransformation());
+    }
 
-    public void applyInvert(View view){apply(new InvertFilterTransformation());}
+    public void applyInvert(View view){
+        apply(new InvertFilterTransformation());
+    }
 
     public void choosePhoto(View view) {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
