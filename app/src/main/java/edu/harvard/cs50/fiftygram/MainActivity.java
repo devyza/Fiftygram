@@ -19,6 +19,11 @@ import com.bumptech.glide.request.RequestOptions;
 import java.io.FileDescriptor;
 import java.io.IOException;
 
+import jp.wasabeef.glide.transformations.gpu.BrightnessFilterTransformation;
+import jp.wasabeef.glide.transformations.gpu.ContrastFilterTransformation;
+import jp.wasabeef.glide.transformations.gpu.InvertFilterTransformation;
+import jp.wasabeef.glide.transformations.gpu.KuwaharaFilterTransformation;
+import jp.wasabeef.glide.transformations.gpu.PixelationFilterTransformation;
 import jp.wasabeef.glide.transformations.gpu.SepiaFilterTransformation;
 import jp.wasabeef.glide.transformations.gpu.SketchFilterTransformation;
 import jp.wasabeef.glide.transformations.gpu.ToonFilterTransformation;
@@ -56,6 +61,12 @@ public class MainActivity extends AppCompatActivity {
     public void applySketch(View view) {
         apply(new SketchFilterTransformation());
     }
+
+    public void applyPixelation(View view){apply(new PixelationFilterTransformation());}
+
+    public void applyKuwahara(View view){apply(new KuwaharaFilterTransformation());}
+
+    public void applyInvert(View view){apply(new InvertFilterTransformation());}
 
     public void choosePhoto(View view) {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
